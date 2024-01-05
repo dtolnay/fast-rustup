@@ -1,3 +1,5 @@
+#![allow(clippy::let_unit_value)]
+
 use anyhow::bail;
 use bytes::{Buf as _, Bytes};
 use clap::Parser;
