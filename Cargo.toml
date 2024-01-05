@@ -1,0 +1,24 @@
+[package]
+name = "fast-rustup"
+version = "0.0.0"
+authors = ["David Tolnay <dtolnay@gmail.com>"]
+description = "Rustup, but the download and untar happen concurrently"
+edition = "2021"
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/dtolnay/fast-rustup"
+
+[dependencies]
+anyhow = "1"
+bytes = "1"
+clap = { version = "4", default-features = false, features = ["cargo", "color", "deprecated", "derive", "help", "std", "usage"] }
+home = "0.5"
+rayon = "1"
+reqwest = { version = "0.11", default-features = false, features = ["rustls-tls", "trust-dns"] }
+tar = "0.4"
+target-triple = "0.1"
+tokio = { version = "1.21", features = ["full"] }
+url = "2"
+xz2 = "0.1"
+
+[target.'cfg(all(target_arch = "x86_64", target_os = "linux", target_env = "gnu"))'.dependencies]
+tikv-jemallocator = "0.5"
