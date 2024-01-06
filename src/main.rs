@@ -201,7 +201,7 @@ async fn do_install(
     }
 
     let elapsed = begin.elapsed();
-    println!("elapsed: {:.03?} sec", elapsed.as_secs_f64());
+    eprintln!("elapsed: {:.03?} sec", elapsed.as_secs_f64());
     Ok(())
 }
 
