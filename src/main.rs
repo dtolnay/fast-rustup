@@ -18,7 +18,7 @@ use url::Url;
 
 #[cfg(all(target_arch = "x86_64", target_os = "linux", target_env = "gnu"))]
 #[global_allocator]
-static ALLOC: Jemalloc = Jemalloc;
+static ALLOC: tikv_jemallocator::Jemalloc = tikv_jemallocator::Jemalloc;
 
 const USER_AGENT: &str = concat!("dtolnay/fast-rustup/v", env!("CARGO_PKG_VERSION"));
 const RUSTUP_DIST_SERVER: &str = "https://static.rust-lang.org";
