@@ -69,6 +69,14 @@ struct Cli {
 fn main() -> anyhow::Result<()> {
     let begin = Instant::now();
 
+    do_main()?;
+
+    let elapsed = begin.elapsed();
+    let _ = writeln!(io::stderr(), "elapsed: {:.03?} sec", elapsed.as_secs_f64());
+    Ok(())
+}
+
+fn do_main() -> anyhow::Result<()> {
     let cli = Cli::parse();
     let date = if cli.nightly.starts_with("nightly-")
         && cli.nightly.len() == "nightly-2024-01-01".len()
@@ -106,7 +114,7 @@ fn main() -> anyhow::Result<()> {
         .enable_all()
         .build()?;
 
-    rt.block_on(do_install(begin, thread_pool, date, &root))
+    rt.block_on(do_install(thread_pool, date, &root))
 }
 
 fn create_dir_if_not_exists(path: &Path) -> io::Result<()> {
@@ -142,12 +150,7 @@ impl io::Read for Chunks {
     }
 }
 
-async fn do_install(
-    begin: Instant,
-    thread_pool: ThreadPool,
-    date: &str,
-    root: &Path,
-) -> anyhow::Result<()> {
+async fn do_install(thread_pool: ThreadPool, date: &str, root: &Path) -> anyhow::Result<()> {
     let (complete_sender, mut complete_receiver) = mpsc::unbounded_channel();
     let mut task_handles = Vec::new();
 
@@ -200,8 +203,6 @@ async fn do_install(
         task_handle.await??;
     }
 
-    let elapsed = begin.elapsed();
-    let _ = writeln!(io::stderr(), "elapsed: {:.03?} sec", elapsed.as_secs_f64());
     Ok(())
 }
 
