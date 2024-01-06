@@ -13,7 +13,6 @@ use std::thread;
 use std::time::Instant;
 use tar::EntryType;
 use target_triple::target;
-use tikv_jemallocator::Jemalloc;
 use tokio::sync::mpsc::{self, UnboundedReceiver};
 use url::Url;
 
