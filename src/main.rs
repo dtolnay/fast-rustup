@@ -176,7 +176,9 @@ async fn do_install(thread_pool: ThreadPool, date: &str, root: &Path) -> anyhow:
                     bail!("{} {}", status, url_string);
                 }
                 while let Some(chunk) = resp.chunk().await? {
-                    chunk_sender.send(chunk).unwrap();
+                    if chunk_sender.send(chunk).is_err() {
+                        break;
+                    }
                 }
                 drop(chunk_sender);
                 Ok(())
